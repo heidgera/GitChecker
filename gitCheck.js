@@ -2,6 +2,16 @@
 
 var Call = require('./call.js').call;
 
+var fetch = new Call('git');
+fetch.setArguments(['fetch']);
+
+fetch.onClose = ()=> {
+  baseHash.new = localHash.new = remoteHash.new = false;
+  baseHash.run();
+  localHash.run();
+  remoteHash.run();
+};
+
 var localHash = new Call('git');
 localHash.setArguments(['rev-parse', '@']);
 localHash.outHandler = (data)=> {
@@ -30,7 +40,11 @@ var pull = new Call('git');
 pull.setArguments(['pull']);
 pull.outHandler = (data)=> {
   console.log(data);
-  if (data != 'Already up-to-date.') console.log('Updated');
+};
+
+pull.onClose = ()=> {
+  console.log('Updated!');
+  location.reload();
 };
 
 var compare = ()=> {
@@ -44,9 +58,4 @@ var compare = ()=> {
   }
 };
 
-setInterval(()=> {
-  baseHash.new = localHash.new = remoteHash.new = false;
-  baseHash.run();
-  localHash.run();
-  remoteHash.run();
-}, 6000);
+setInterval(fetch.run, 6000);
