@@ -1,6 +1,6 @@
-# electron-quick-start
+# GitChecker
 
-**Clone and run for a quick way to see Electron in action.**
+**Electron module to check if the current project needs to be updated.**
 
 This is a minimal Electron application based on the [Quick Start Guide](http://electron.atom.io/docs/latest/tutorial/quick-start) within the Electron documentation.
 
